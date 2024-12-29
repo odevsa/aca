@@ -12,3 +12,19 @@
       name: cosmic-greeter
       enabled: true
   become: true
+
+- block:
+    - name: Find Linux entries
+      find:
+        paths: /boot/loader/entries/
+        patterns: "*linux*.conf"
+      register: linux_entries
+
+    - name: Update boot entry for quiet mode
+      lineinfile:
+        path: "{{ item.path }}"
+        regexp: "^(options.*)$"
+        line: \1 quiet loglevel=3 rd.systemd.show_status=auto rd.udev.log_priority=3
+        backrefs: true
+      loop: "{{ linux_entries.files }}"
+  become: true

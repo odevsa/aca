@@ -4,11 +4,11 @@
     pacman:
       name:
         - cosmic
+        - power-profiles-daemon
       state: present
 
   - name: Enable and start the service cosmic-greeter
     systemd:
       name: cosmic-greeter
       enabled: true
-      state: started
   become: true

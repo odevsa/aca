@@ -1,4 +1,4 @@
-# ACHA - Arch Cosmic Ansible
+# ACA - Arch Cosmic Ansible
 
 A simple intallation of Cosmic Desktop Environment with my Dotfiles into Arch Linux and automated by ansible.
 

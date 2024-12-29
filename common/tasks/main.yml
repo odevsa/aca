@@ -7,9 +7,9 @@
 - include_tasks: dotfiles.yml
   when: dotfiles.install == true
 
-- include_tasks: zsh.yml
-
 - include_tasks: core.yml
+
+- include_tasks: zsh.yml
 
 - include_tasks: amdgpu.yml
   when: amdgpu.install == true

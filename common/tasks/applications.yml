@@ -21,8 +21,8 @@
           - simple-scan
           - evince
           - file-roller
-          - gnome-music
           - totem
+          - imv
         state: present
       when: application.utilities == true
 

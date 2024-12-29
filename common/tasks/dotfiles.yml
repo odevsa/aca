@@ -1,0 +1,45 @@
+---
+- block:
+    - name: Clone dotfiles from repository
+      git:
+        repo: "{{ dotfiles.url }}"
+        dest: /tmp/dotfiles
+        update: true
+  become: false
+
+- block:
+    - name: Remove existing ~/.config/
+      file:
+        path: "{{ lookup('env', 'HOME') }}/.config/"
+        state: absent
+      when: dotfiles.clear_before == true
+
+    - name: Copy dotfiles to ~/
+      copy:
+        src: /tmp/dotfiles/
+        dest: "{{ lookup('env', 'HOME') }}"
+        remote_src: true
+
+    - name: Ensure absence unused files
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ lookup('env', 'HOME') }}/.git"
+        - "{{ lookup('env', 'HOME') }}/install.sh"
+        - "{{ lookup('env', 'HOME') }}/README.md"
+  become: false
+
+- block:
+    - name: Copy oh-my-posh configuration to root
+      copy:
+        src: /tmp/dotfiles/.config/oh-my-posh/
+        dest: /root/.config/oh-my-posh/
+        remote_src: true
+
+    - name: Copy .zshrc configuration to root
+      copy:
+        src: /tmp/dotfiles/.zshrc
+        dest: /root/.zshrc
+        remote_src: true
+  become: true

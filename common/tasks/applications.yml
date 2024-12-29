@@ -1,0 +1,84 @@
+---
+- block:
+    - name: Install terminal applications
+      pacman:
+        name:
+          - btop
+          - fastfetch
+          - nano
+          - neovim
+        state: present
+
+    - name: Install utilities applications
+      pacman:
+        name:
+          - gnome-calculator
+          - gnome-connections
+          - gnome-disk-utility
+          - baobab
+          - gnome-system-monitor
+          - snapshot
+          - simple-scan
+          - evince
+          - file-roller
+          - gnome-music
+          - totem
+        state: present
+      when: application.utilities == true
+
+    - name: Install office pack
+      pacman:
+        name:
+          - libreoffice-fresh
+        state: present
+      when: aur.enable != true and application.utilities == true
+
+    - name: Install AUR onlyoffice-bin
+      command: yay -S --noconfirm onlyoffice-bin
+      become_user: "{{ lookup('env', 'USER') }}"
+      when: aur.enable == true and application.utilities == true
+
+    - name: Install development applications
+      pacman:
+        name:
+          - dbeaver
+        state: present
+      when: application.development == true
+
+    - name: Install Code - OSS
+      pacman:
+        name:
+          - code
+        state: present
+      when: aur.enable != true and application.development == true
+
+    - name: Install AUR visual-studio-code-bin
+      command: yay -S --noconfirm visual-studio-code-bin
+      become_user: "{{ lookup('env', 'USER') }}"
+      when: aur.enable == true and application.development == true
+
+    - name: Install graphical applications
+      pacman:
+        name:
+          - gimp
+          - inkscape
+        state: present
+      when: application.graphical == true
+
+    - name: Install multimedia applications
+      pacman:
+        name:
+          - audacity
+          - obs-studio
+          - kdenlive
+        state: present
+      when: application.multimedia == true
+
+    - name: Install 3D applications
+      pacman:
+        name:
+          - blender
+          - freecad
+        state: present
+      when: application.three_dimensional == true
+  become: true

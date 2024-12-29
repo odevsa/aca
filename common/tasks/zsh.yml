@@ -1,0 +1,56 @@
+---
+- block:
+    - name: Install ZSH
+      pacman:
+        name:
+          - zsh
+          - eza
+          - bat
+        state: present
+
+    - name: "Change default {{ lookup('env', 'USER') }} shell"
+      user:
+        name: "{{ lookup('env', 'USER') }}"
+        shell: /usr/bin/zsh
+
+    - name: Change default root shell
+      user:
+        name: root
+        shell: /usr/bin/zsh
+
+  become: true
+
+- block:
+    - name: Install Oh My Posh
+      shell: |
+        curl -s https://ohmyposh.dev/install.sh | bash -s -- -d /usr/bin
+      ignore_errors: true
+  become: true
+  name: Install Oh My Posh
+
+- block:
+    - name: Create plugins temporary directory
+      file:
+        path: /tmp/.antigen
+        state: directory
+
+    - name: Copy antigen.zsh
+      get_url:
+        url: https://git.io/antigen
+        dest: /tmp/.antigen/antigen.zsh
+
+    - name: Copy /tmp/.antigen to ~/.antigen
+      copy:
+        src: /tmp/.antigen/
+        dest: "{{ lookup('env', 'HOME') }}/.antigen"
+        remote_src: true
+
+    - name: Copy /tmp/.antigen to /root/.antigen
+      copy:
+        src: /tmp/.antigen/
+        dest: "/root/.antigen"
+        remote_src: true
+      become: true
+
+  become: false
+  name: Install Antigen plugin manager

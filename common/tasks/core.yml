@@ -1,0 +1,127 @@
+---
+- block:
+    - name: Install general packages
+      pacman:
+        name:
+          - curl
+          - wget
+          - usbutils
+        state: present
+
+    - name: Install audio codec packages
+      pacman:
+        name:
+          - flac
+          - wavpack
+          - faac
+          - faad2
+          - libfdk-aac
+          - a52dec
+          - libdca
+          - lame
+          - libmad
+          - libmpcdec
+          - opencore-amr
+          - opus
+          - libvorbis
+          - opencore-amr
+          - speex
+          - libvorbis
+        state: present
+
+    - name: Install image codec packages
+      pacman:
+        name:
+          - jasper
+          - libwebp
+          - libavif
+          - libheif
+          - libjxl
+        state: present
+
+    - name: Install video codec packages
+      pacman:
+        name:
+          - aom
+          - dav1d
+          - rav1e
+          - svt-av1
+          - schroedinger
+          - libdv
+          - x265
+          - libde265
+          - x264
+          - libmpeg2
+          - xvidcore
+          - libtheora
+          - libvpx
+        state: present
+
+    - name: Install gstreamer packages
+      pacman:
+        name:
+          - gstreamer
+          - gst-libav
+          - gst-plugins-bad
+          - gst-plugins-base
+          - gst-plugins-good
+          - gst-plugins-ugly
+        state: present
+
+    - name: Install archive packages
+      pacman:
+        name:
+          - p7zip
+          - unrar
+          - unzip
+          - xz
+          - zip
+          - bzip2
+          - gzip
+          - tar
+        state: present
+
+    - name: Install multimedia packages
+      pacman:
+        name:
+          - mesa
+          - vulkan-tools
+          - vulkan-intel
+          - networkmanager
+          - bluez
+          - pipewire
+          - pipewire-pulse
+          - wireplumber
+        state: present
+
+    - name: Install development packages
+      pacman:
+        name:
+          - base-devel
+          - git
+          - python
+          - rust
+          - nodejs-lts-iron
+          - npm
+        state: present
+  become: true
+
+- block:
+    - name: Enable and start the service NetworkManager
+      systemd:
+        name: NetworkManager
+        enabled: true
+        state: started
+
+    - name: Enable and start the service bluetooth
+      systemd:
+        name: bluetooth
+        enabled: true
+        state: started
+
+    - name: Enable systemd-resolved service
+      systemd:
+        name: systemd-resolved
+        enabled: true
+        state: started
+  become: true

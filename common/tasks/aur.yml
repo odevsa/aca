@@ -1,0 +1,48 @@
+---
+- block:
+    - name: Check if Yay is installed
+      command: which yay
+      register: yay_check
+      failed_when: false
+
+    - name: Install Yay dependencies
+      pacman:
+        name:
+          - base-devel
+          - git
+        state: present
+        update_cache: true
+      become: true
+      when: yay_check.rc != 0
+
+    - name: Remove existing /tmp/yay
+      file:
+        path: "/tmp/yay"
+        state: absent
+      become: true
+      when: yay_check.rc != 0
+
+    - name: Clone Yay repository
+      git:
+        repo: https://aur.archlinux.org/yay.git
+        dest: /tmp/yay
+        clone: yes
+        force: yes
+      when: yay_check.rc != 0
+
+    - name: Build Yay
+      command: makepkg -s --noconfirm
+      args:
+        chdir: /tmp/yay
+      become_user: "{{ lookup('env', 'USER') }}"
+      when: yay_check.rc != 0
+
+    - name: Install Yay
+      pacman:
+        name: "{{ item }}"
+        state: present
+      with_fileglob:
+        - /tmp/yay/*.pkg.tar.zst
+      become: true
+      when: yay_check.rc != 0
+  become: false

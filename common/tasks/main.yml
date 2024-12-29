@@ -1,0 +1,35 @@
+---
+- include_tasks: pacman.yml
+
+- include_tasks: aur.yml
+  when: aur.enable == true
+
+- include_tasks: dotfiles.yml
+  when: dotfiles.install == true
+
+- include_tasks: zsh.yml
+
+- include_tasks: core.yml
+
+- include_tasks: amdgpu.yml
+  when: amdgpu.install == true
+
+- include_tasks: nvidia.yml
+  when: nvidia.install == true
+
+- include_tasks: fonts.yml
+
+- include_tasks: applications.yml
+
+- include_tasks: spacevim.yml
+  when: application.development == true
+
+- include_tasks: docker.yml
+  when: application.development == true
+
+- include_tasks: browser.yml
+
+- include_tasks: cosmic.yml
+
+- name: Reboot the system
+  command: reboot

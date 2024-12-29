@@ -1,0 +1,21 @@
+---
+- block:
+    - name: Install Docker and dependencies
+      pacman:
+        name:
+          - docker
+          - docker-compose
+        state: present
+
+    - name: Enable Docker service
+      systemd:
+        name: docker
+        enabled: true
+        state: started
+
+    - name: Add user to docker group
+      user:
+        name: "{{ lookup('env', 'USER') }}"
+        groups: docker
+        append: true
+  become: true

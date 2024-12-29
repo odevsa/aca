@@ -1,0 +1,14 @@
+---
+- block:
+  - name: Install Cosmic Desktop Environment
+    pacman:
+      name:
+        - cosmic
+      state: present
+
+  - name: Enable and start the service cosmic-greeter
+    systemd:
+      name: cosmic-greeter
+      enabled: true
+      state: started
+  become: true

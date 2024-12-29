@@ -1,0 +1,23 @@
+---
+browser: google-chrome # firefox, chromium, vivaldi, google-chrome (depends on aur.enable: true)
+
+dotfiles:
+  install: true
+  clear_before: true
+  url: https://github.com/odevsa/dotfiles
+
+amdgpu:
+  install: true
+
+application:
+  utilities: true
+  development: true
+  graphical: true
+  multimedia: true
+  three_dimensional: true
+
+nvidia:
+  install: true
+
+aur:
+  enable: true

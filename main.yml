@@ -1,0 +1,5 @@
+---
+- name: Arch + Cosmic
+  hosts: hosts
+  roles:
+    - common

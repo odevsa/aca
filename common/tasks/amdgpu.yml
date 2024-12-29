@@ -1,0 +1,11 @@
+---
+- block:
+    - name: Install amdgpu drivers
+      pacman:
+        name:
+          - vulkan-radeon
+          - libva-mesa-driver
+          - mesa-vdpau
+          - radeontop
+        state: present
+  become: true

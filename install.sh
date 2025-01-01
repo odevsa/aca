@@ -1,7 +1,7 @@
 #!/bin/bash
 
-TMP_DIR=/tmp/aca
-VARS_FILE="$TMP_DIR/common/vars/main.yml"
+tmp_dir=/tmp/aca
+vars_file="$tmp_dir/common/vars/main.yml"
 
 NO_AMDGPU=false
 NO_NVIDIA=false
@@ -12,15 +12,17 @@ ONLY_CORE=false
 packages=("git" "python" "ansible")
 
 for package in "${packages[@]}"; do
-    if ! pacman -Qi "$package" > /dev/null; then
-        echo "Installing $package..."
-        sudo pacman -S --noconfirm "$package"
+    if ! pacman -Qi "$package" &> /dev/null; then
+        echo "=> Installing $package..."
+        sudo pacman -S --noconfirm "$package" &> /dev/null
     else
         echo "=> $package already installed."
     fi
 done
 
-git clone https://github.com/odevsa/aca.git $TMP_DIR
+echo "=> Cloning into $tmp_dir..."
+sudo rm -rf $tmp_dir
+git clone https://github.com/odevsa/aca.git "$tmp_dir" &> /dev/null
 
 for arg in "$@"; do
     case $arg in
@@ -54,18 +56,21 @@ update_yaml_block_value() {
 }
 
 if [ "$NO_AMDGPU" = true ] || [ "$NO_GPU" = true ] || [ "$ONLY_CORE" = true ]; then
-    update_yaml_block_value "amdgpu" "install" "false" "$VARS_FILE"
+    echo "=> Removing [amdgpu]..."    
+    update_yaml_block_value "amdgpu" "install" "false" "$vars_file"
 fi
 
 if [ "$NO_NVIDIA" = true ] || [ "$NO_GPU" = true ] || [ "$ONLY_CORE" = true ]; then
-    update_yaml_block_value "nvidia" "install" "false" "$VARS_FILE"
+    echo "=> Removing [nvidia]..."    
+    update_yaml_block_value "nvidia" "install" "false" "$vars_file"
 fi
 
 if [ "$ONLY_CORE" = true ] || [ "$NO_APPS" = true ]; then
-    update_yaml_block_value "application" "development" "false" "$VARS_FILE"
-    update_yaml_block_value "application" "graphical" "false" "$VARS_FILE"
-    update_yaml_block_value "application" "multimedia" "false" "$VARS_FILE"
-    update_yaml_block_value "application" "three_dimensional" "false" "$VARS_FILE"
+    echo "=> Removing [applications]..."    
+    update_yaml_block_value "application" "development" "false" "$vars_file"
+    update_yaml_block_value "application" "graphical" "false" "$vars_file"
+    update_yaml_block_value "application" "multimedia" "false" "$vars_file"
+    update_yaml_block_value "application" "three_dimensional" "false" "$vars_file"
 fi
 
-(cd $TMP_DIR && ansible-playbook --ask-become-pass main.yml)
+# (cd $tmp_dir && ansible-playbook --ask-become-pass main.yml)

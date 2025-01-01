@@ -35,9 +35,10 @@
     - name: Added ILoveCandy in pacman.conf
       lineinfile:
         path: /etc/pacman.conf
-        line: 'ILoveCandy'
-        insertafter: '^.*Misc options.*$'
-    
+        line: "ILoveCandy"
+        insertafter: "^.*Misc options.*$"
+        state: present
+
     - name: Uncomment ParallelDownloads in pacman.conf
       replace:
         path: /etc/pacman.conf

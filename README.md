@@ -59,10 +59,6 @@ It's needing of some check before to do changes in files of the system yet, so i
 - [SUPER]+[ARROW] Change focus window
 - [SUPER]+[SHIFT]+[ARROW] Move window
 
-## TODO
-
-- [ ] ...
-
 ## What you will need
 
 - Any distribution based on Arch Linux, preferably a clean installation of Arch Linux with systemd-boot (grub not tested yet).

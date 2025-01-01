@@ -43,3 +43,29 @@
         dest: /root/.zshrc
         remote_src: true
   become: true
+
+- block:
+    - name: Replace 'ć' with 'ç' in Compose file
+      replace:
+        path: /usr/share/X11/locale/en_US.UTF-8/Compose
+        regexp: "ć"
+        replace: "ç"
+
+    - name: Replace 'Ć' with 'Ç' in Compose file
+      replace:
+        path: /usr/share/X11/locale/en_US.UTF-8/Compose
+        regexp: "Ć"
+        replace: "Ç"
+
+    - name: Set GTK_IM_MODULE to cedilla in /etc/environment
+      lineinfile:
+        path: /etc/environment
+        line: "GTK_IM_MODULE=cedilla"
+        state: present
+
+    - name: Set QT_IM_MODULE to cedilla in /etc/environment
+      lineinfile:
+        path: /etc/environment
+        line: "QT_IM_MODULE=cedilla"
+        state: present
+  become: true

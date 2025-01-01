@@ -84,6 +84,7 @@
     - name: Install multimedia packages
       pacman:
         name:
+          - fwupd
           - mesa
           - vulkan-tools
           - vulkan-intel

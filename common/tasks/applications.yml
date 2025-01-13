@@ -81,4 +81,9 @@
           - freecad
         state: present
       when: application.three_dimensional == true
+
+    - name: Install AUR orca-slicer-bin
+      command: yay -S --noconfirm orca-slicer-bin
+      become_user: "{{ lookup('env', 'USER') }}"
+      when: aur.enable == true and 1 == true
   become: true

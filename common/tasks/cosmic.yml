@@ -1,16 +1,24 @@
 ---
 - block:
-  - name: Install Cosmic Desktop Environment
-    pacman:
-      name:
-        - cosmic
-        - power-profiles-daemon
-      state: present
+    - name: Install Cosmic Desktop Environment
+      pacman:
+        name:
+          - cosmic
+          - power-profiles-daemon
+        state: present
 
-  - name: Enable and start the service cosmic-greeter
-    systemd:
-      name: cosmic-greeter
-      enabled: true
+    - name: Enable and start the service cosmic-greeter
+      systemd:
+        name: cosmic-greeter
+        enabled: true
+  become: true
+
+- block:
+    - name: Set GTK_THEME to dark mode in /etc/environment
+      lineinfile:
+        path: /etc/environment
+        line: "GTK_THEME=Adwaita:dark"
+        state: present
   become: true
 
 - block:

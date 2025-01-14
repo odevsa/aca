@@ -82,8 +82,15 @@
         state: present
       when: application.three_dimensional == true
 
+    - name: Install 3d printer slicer
+      pacman:
+        name:
+          - prusa-slicer
+        state: present
+      when: aur.enable != true and application.three_dimensional == true
+
     - name: Install AUR orca-slicer-bin
       command: yay -S --noconfirm orca-slicer-bin
       become_user: "{{ lookup('env', 'USER') }}"
-      when: aur.enable == true and 1 == true
+      when: aur.enable == true and application.three_dimensional == true
   become: true

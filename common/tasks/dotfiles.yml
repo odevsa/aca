@@ -1,10 +1,18 @@
 ---
 - block:
+    - name: Remove existing /tmp/dotfiles
+      file:
+        path: "/tmp/dotfiles"
+        state: absent
+
     - name: Clone dotfiles from repository
       git:
         repo: "{{ dotfiles.url }}"
         dest: /tmp/dotfiles
         update: true
+
+    - name: Replace {user} with $USER in dotfiles
+      command: find /tmp/dotfiles -type f -exec sed -i "s/{user}/$USER/g" '{}' \;
   become: false
 
 - block:

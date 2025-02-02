@@ -22,7 +22,7 @@
           - evince
           - file-roller
           - totem
-          - imv
+          - loupe
         state: present
       when: application.utilities == true
 

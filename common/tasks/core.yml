@@ -81,6 +81,19 @@
           - tar
         state: present
 
+    - name: Install disk utility packages
+      pacman:
+        name:
+          - dosfstools
+          - exfatprogs
+          - xfsprogs
+          - jfsutils
+          - f2fs-tools
+          - ntfs-3g
+          - e2fsprogs
+          - btrfs-progs
+        state: present
+
     - name: Install multimedia packages
       pacman:
         name:

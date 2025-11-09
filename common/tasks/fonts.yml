@@ -6,5 +6,6 @@
         - ttf-font-awesome
         - ttf-firacode-nerd
         - ttf-iosevka-nerd
+        - noto-fonts-emoji
       state: present
   become: true

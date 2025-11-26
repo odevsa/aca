@@ -1,0 +1,11 @@
+---
+- block:
+    - name: Install flatpak
+      pacman:
+        name:
+          - flatpak
+        state: present
+
+    - name: Add Flathub remote
+      command: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+  become: true

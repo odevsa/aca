@@ -1,6 +1,9 @@
 ---
 - include_tasks: pacman.yml
 
+- include_tasks: flatpak.yml
+  when: flatpak.enable == true
+
 - include_tasks: aur.yml
   when: aur.enable == true
 

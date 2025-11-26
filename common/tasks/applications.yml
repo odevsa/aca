@@ -12,6 +12,7 @@
     - name: Install utilities applications
       pacman:
         name:
+          - alacarte
           - gnome-calculator
           - gnome-connections
           - gnome-disk-utility
@@ -93,4 +94,12 @@
       command: yay -S --noconfirm orca-slicer-bin
       become_user: "{{ lookup('env', 'USER') }}"
       when: aur.enable == true and application.three_dimensional == true
+  become: true
+
+- block:
+    - name: Create a symbolic link for applications.menu
+      file:
+        src: /etc/xdg/menus/gnome-applications.menu
+        dest: /etc/xdg/menus/applications.menu
+        state: link
   become: true

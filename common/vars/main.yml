@@ -19,5 +19,8 @@ application:
 nvidia:
   install: true
 
+flatpak:
+  enable: true
+
 aur:
   enable: true
